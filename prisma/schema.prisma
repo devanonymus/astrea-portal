@@ -1,13 +1,305 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Get a free hosted Postgres database in seconds: `npx create-db`
-
 generator client {
   provider = "prisma-client"
-  output   = "../src/generated/prisma"
+  output   = "../generated/prisma"
 }
 
 datasource db {
   provider = "postgresql"
+}
+
+enum UserRole {
+  USER
+  PROFESSIONAL
+  ADMIN
+}
+
+enum AccountType {
+  CITIZEN
+  BUSINESS
+}
+
+enum TicketStatus {
+  NEW
+  UNDER_REVIEW
+  IN_PROGRESS
+  WAITING_REQUESTER
+  RESOLVED
+  CLOSED
+}
+
+enum TicketCategory {
+  TERRITORY_ENVIRONMENT
+  ENERGY_SUSTAINABILITY
+  TECHNOLOGY_INNOVATION
+  RESEARCH_PLANNING
+  LOCAL_DEVELOPMENT
+  CONSERVATION_PROTECTION
+  OTHER
+}
+
+enum TicketPriority {
+  LOW
+  NORMAL
+  HIGH
+  URGENT
+}
+
+enum TicketEventType {
+  CREATED
+  STATUS_CHANGED
+  ASSIGNED
+  UNASSIGNED
+  MESSAGE_ADDED
+  ATTACHMENT_ADDED
+  PRIORITY_CHANGED
+  CLOSED
+  REOPENED
+}
+
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  emailVerified DateTime?
+  passwordHash  String?
+  firstName     String?
+  lastName      String?
+  phone         String?
+  image         String?
+
+  role        UserRole     @default(USER)
+  accountType AccountType?
+  active      Boolean      @default(true)
+
+  privacyAcceptedAt DateTime?
+  termsAcceptedAt   DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  citizenProfile      CitizenProfile?
+  businessProfile     BusinessProfile?
+  professionalProfile ProfessionalProfile?
+
+  requestedTickets Ticket[] @relation("RequesterTickets")
+  assignedTickets  Ticket[] @relation("AssignedProfessionalTickets")
+
+  messages            TicketMessage[]
+  uploadedAttachments TicketAttachment[]
+  ticketEvents        TicketEvent[]
+
+  oauthAccounts OAuthAccount[]
+  sessions      Session[]
+
+  @@index([role])
+  @@index([accountType])
+  @@index([active])
+}
+
+model CitizenProfile {
+  id     String @id @default(cuid())
+  userId String @unique
+
+  fiscalCode String?
+  city       String?
+  province   String?
+  address    String?
+  postalCode String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model BusinessProfile {
+  id     String @id @default(cuid())
+  userId String @unique
+
+  companyName      String
+  vatNumber        String  @unique
+  taxCode          String?
+  contactFirstName String
+  contactLastName  String
+
+  pec        String?
+  sdiCode    String?
+  website    String?
+  city       String?
+  province   String?
+  address    String?
+  postalCode String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([companyName])
+}
+
+model ProfessionalProfile {
+  id     String @id @default(cuid())
+  userId String @unique
+
+  title        String?
+  profession   String
+  bio          String?
+  expertise    String[]
+  organization String?
+
+  enabled Boolean @default(false)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([enabled])
+}
+
+model Ticket {
+  id   String @id @default(cuid())
+  code String @unique
+
+  requesterId String
+  requester   User   @relation("RequesterTickets", fields: [requesterId], references: [id])
+
+  assignedProfessionalId String?
+  assignedProfessional   User?   @relation("AssignedProfessionalTickets", fields: [assignedProfessionalId], references: [id])
+
+  subject     String
+  description String
+
+  category TicketCategory
+  status   TicketStatus   @default(NEW)
+  priority TicketPriority @default(NORMAL)
+
+  assignedAt DateTime?
+  resolvedAt DateTime?
+  closedAt   DateTime?
+
+  messages    TicketMessage[]
+  attachments TicketAttachment[]
+  events      TicketEvent[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([requesterId])
+  @@index([assignedProfessionalId])
+  @@index([status])
+  @@index([category])
+  @@index([priority])
+  @@index([createdAt])
+}
+
+model TicketMessage {
+  id       String @id @default(cuid())
+  ticketId String
+  authorId String
+
+  body         String
+  internalOnly Boolean @default(false)
+
+  ticket Ticket @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+  author User   @relation(fields: [authorId], references: [id])
+
+  attachments TicketAttachment[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([ticketId])
+  @@index([authorId])
+  @@index([createdAt])
+}
+
+model TicketAttachment {
+  id         String  @id @default(cuid())
+  ticketId   String
+  messageId  String?
+  uploaderId String
+
+  originalName String
+  storageKey   String @unique
+  mimeType     String
+  sizeBytes    Int
+
+  ticket   Ticket         @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+  message  TicketMessage? @relation(fields: [messageId], references: [id], onDelete: Cascade)
+  uploader User           @relation(fields: [uploaderId], references: [id])
+
+  createdAt DateTime @default(now())
+
+  @@index([ticketId])
+  @@index([messageId])
+  @@index([uploaderId])
+}
+
+model TicketEvent {
+  id       String  @id @default(cuid())
+  ticketId String
+  actorId  String?
+
+  type TicketEventType
+
+  fromValue String?
+  toValue   String?
+  note      String?
+
+  ticket Ticket @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+  actor  User?  @relation(fields: [actorId], references: [id])
+
+  createdAt DateTime @default(now())
+
+  @@index([ticketId])
+  @@index([actorId])
+  @@index([createdAt])
+}
+
+model OAuthAccount {
+  id String @id @default(cuid())
+
+  userId String
+
+  provider          String
+  providerAccountId String
+
+  accessToken  String?
+  refreshToken String?
+  expiresAt    Int?
+  tokenType    String?
+  scope        String?
+  idToken      String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([provider, providerAccountId])
+  @@index([userId])
+}
+
+model Session {
+  id String @id @default(cuid())
+
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
 }
