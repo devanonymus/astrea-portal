@@ -303,3 +303,11 @@ model VerificationToken {
 
   @@unique([identifier, token])
 }
+
+// Shared across replicas: fixed-window protection for public authentication endpoints.
+model SecurityRateLimit {
+  key String @id
+  count Int @default(1)
+  expires DateTime
+  @@index([expires])
+}
