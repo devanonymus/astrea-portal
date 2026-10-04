@@ -41,12 +41,12 @@ const sectors = [
 
 export default function Home() {
   return (
-    <main>
+    <main id="contenuto">
       {/* HERO */}
       <section className="editorial-gradient grid-pattern relative overflow-hidden text-white">
         <div className="mx-auto max-w-7xl px-5 py-24 md:py-32 lg:px-8 lg:py-40">
           <div className="max-w-4xl">
-            <p className="mb-7 text-xs font-semibold uppercase tracking-[0.3em] text-white/60">
+            <p className="mb-7 text-xs font-semibold uppercase tracking-[0.3em] text-white/80">
               Associazione culturale · Italia
             </p>
 
@@ -135,7 +135,7 @@ export default function Home() {
               </div>
 
               <div className="border-t border-white/10 bg-white/[0.04] p-8 sm:p-12 lg:border-l lg:border-t-0 lg:p-16">
-                <p className="text-xs font-bold uppercase tracking-[0.2em] text-white/40">
+                <p className="text-xs font-bold uppercase tracking-[0.2em] text-white/80">
                   Come funziona
                 </p>
 
@@ -155,7 +155,7 @@ export default function Home() {
 
                       <div>
                         <h3 className="font-semibold">{title}</h3>
-                        <p className="mt-1 text-sm leading-6 text-white/60">
+                        <p className="mt-1 text-sm leading-6 text-white/80">
                           {text}
                         </p>
                       </div>
@@ -208,7 +208,7 @@ export default function Home() {
       <section className="bg-astrea-green py-20 text-white lg:py-28">
         <div className="mx-auto grid max-w-7xl gap-12 px-5 lg:grid-cols-2 lg:items-center lg:px-8">
           <div>
-            <p className="text-xs font-bold uppercase tracking-[0.25em] text-white/60">
+            <p className="text-xs font-bold uppercase tracking-[0.25em] text-white/80">
               Rete scientifica
             </p>
 

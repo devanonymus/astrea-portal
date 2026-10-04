@@ -5,6 +5,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.APP_URL || "http://localhost:3000"),
   title: {
     default: "ASTREA | Territorio, Ricerca, Energia e Ambiente",
     template: "%s | ASTREA",
@@ -21,6 +22,7 @@ export default function RootLayout({
   return (
     <html lang="it">
       <body>
+        <a className="skip-link" href="#contenuto">Vai al contenuto</a>
         <Header />
         {children}
         <Footer />

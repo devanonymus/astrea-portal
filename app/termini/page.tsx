@@ -1,0 +1,9 @@
+import PageFrame from "@/components/PageFrame";
+export const metadata = { title: "Termini dello Sportello" };
+export default function Page() { return <PageFrame title="Termini dello Sportello"><div className="panel max-w-4xl space-y-8">{[
+  ["Finalità del servizio", "Lo Sportello consente a cittadini e imprese di presentare richieste ad ASTREA nei propri ambiti di attività. L'invio non costituisce accettazione di un incarico professionale né garanzia di un risultato o di tempi determinati."],
+  ["Gestione delle richieste", "ASTREA valuta ogni richiesta e ne coordina la presa in carico. Solo ASTREA può assegnare o rimuovere un professionista. Il richiedente può consultare stato, cronologia, messaggi e documenti della propria pratica."],
+  ["Responsabilità dell'utente", "Fornisci dati corretti, conserva la password con cura e carica solo documenti pertinenti che sei autorizzato a condividere. Non utilizzare il servizio per contenuti illeciti, offensivi o dannosi. Segnala ad ASTREA eventuali accessi sospetti."],
+  ["Documenti e comunicazioni", "Sono ammessi PDF, JPEG e PNG fino a 10 MB ciascuno, con un limite di 50 documenti e 100 MB per pratica. Una pratica chiusa non accetta nuovi messaggi o documenti; ASTREA può riaprirla per una nuova valutazione."],
+  ["Disponibilità e contatti", "Il servizio può essere temporaneamente indisponibile per manutenzione. Eventuali incarichi, condizioni economiche e responsabilità professionali richiedono accordi separati con i soggetti coinvolti. Per chiarimenti utilizza i contatti dell'associazione."],
+].map(([title,text])=><section key={title}><h2 className="font-serif text-2xl">{title}</h2><p className="mt-3 leading-7">{text}</p></section>)}<p className="text-sm">Testo da approvare da parte di ASTREA prima dell&apos;apertura pubblica del servizio.</p></div></PageFrame>; }

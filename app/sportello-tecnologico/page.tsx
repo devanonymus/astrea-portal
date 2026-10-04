@@ -1,5 +1,7 @@
 import Link from "next/link";
 
+export const metadata = { title: "Sportello Tecnologico", description: "Invia una richiesta ad ASTREA e segui valutazione, presa in carico e comunicazioni dalla tua area personale." };
+
 const areas = [
   "Territorio e ambiente",
   "Energia e sostenibilità",
@@ -11,12 +13,12 @@ const areas = [
 
 export default function SportelloTecnologicoPage() {
   return (
-    <main>
+    <main id="contenuto">
       {/* HERO */}
       <section className="editorial-gradient grid-pattern text-white">
         <div className="mx-auto max-w-7xl px-5 py-20 lg:px-8 lg:py-28">
           <div className="max-w-4xl">
-            <p className="text-xs font-bold uppercase tracking-[0.28em] text-white/60">
+            <p className="text-xs font-bold uppercase tracking-[0.28em] text-white/80">
               ASTREA · Servizi digitali
             </p>
 
@@ -229,7 +231,7 @@ export default function SportelloTecnologicoPage() {
       <section className="bg-astrea-green text-white">
         <div className="mx-auto flex max-w-7xl flex-col gap-8 px-5 py-16 md:flex-row md:items-center md:justify-between lg:px-8">
           <div>
-            <p className="text-xs font-bold uppercase tracking-[0.25em] text-white/60">
+            <p className="text-xs font-bold uppercase tracking-[0.25em] text-white/80">
               Sei già registrato?
             </p>
 
