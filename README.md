@@ -97,9 +97,9 @@ La dipendenza vulnerabile braces è stata rimossa: un override limitato a @next/
 
 ## Railway
 
-`railway.json` prepara build, migration nel pre-deploy, avvio e healthcheck `/api/health`. Next usa PORT fornita da Railway. L’healthcheck verifica la tabella della migration incrementale e restituisce solo errori generici. Riferimenti: [Next.js Railway](https://docs.railway.com/guides/nextjs), [healthcheck](https://docs.railway.com/deployments/healthchecks).
+`railway.json` conserva la configurazione per i servizi legacy. Per il nuovo servizio Railway, che non può attivare Config as Code, impostare direttamente nella piattaforma: builder Railpack, build `npm ci && npm run build`, pre-deploy `npm run db:deploy`, start `npm run start`, healthcheck `/api/health`, timeout 120 secondi e riavvio On Failure con massimo 3 tentativi. Next usa PORT fornita da Railway. L’healthcheck verifica la tabella della migration incrementale e restituisce solo errori generici. Riferimenti: [Next.js Railway](https://docs.railway.com/guides/nextjs), [healthcheck](https://docs.railway.com/deployments/healthchecks).
 
-1. Collega il repository e seleziona il branch approvato.
+1. Collega il repository e seleziona il branch approvato. La versione dello Sportello è nel branch `development/astrea-sportello` (PR #1), fino alla sua integrazione in main.
 2. Associa il PostgreSQL esistente; configura DATABASE_URL privatamente tramite riferimento Railway e APP_URL sul dominio HTTPS.
 3. Configura Google, SMTP e bucket privato; non usare prefissi NEXT_PUBLIC_ per credenziali.
 4. Verifica la migration incrementale e conserva il backup. La migration iniziale già applicata non va ricreata.
