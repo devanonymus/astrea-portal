@@ -17,7 +17,7 @@ export default function Footer() {
         </div>
 
         <div>
-          <h2 className="text-xs font-bold uppercase tracking-[0.2em] text-white/50">
+          <h2 className="text-xs font-bold uppercase tracking-[0.2em] text-white/80">
             Esplora
           </h2>
 
@@ -26,11 +26,13 @@ export default function Footer() {
             <Link href="/rete-scientifica">Rete scientifica</Link>
             <Link href="/attivita">Attività</Link>
             <Link href="/notizie">Notizie</Link>
+            <Link href="/proposte-di-astrea">Proposte di ASTREA</Link>
+            <Link href="/attivita-dei-soci">Attività dei soci</Link>
           </div>
         </div>
 
         <div>
-          <h2 className="text-xs font-bold uppercase tracking-[0.2em] text-white/50">
+          <h2 className="text-xs font-bold uppercase tracking-[0.2em] text-white/80">
             Sportello
           </h2>
 
@@ -40,12 +42,15 @@ export default function Footer() {
             </Link>
             <Link href="/accedi">Area personale</Link>
             <Link href="/contatti">Contatti</Link>
+            <Link href="/le-mie-proposte">Le tue proposte</Link>
+            <Link href="/privacy">Privacy</Link>
+            <Link href="/termini">Termini dello Sportello</Link>
           </div>
         </div>
       </div>
 
       <div className="border-t border-white/10">
-        <div className="mx-auto flex max-w-7xl flex-col gap-2 px-5 py-6 text-xs text-white/50 md:flex-row md:justify-between lg:px-8">
+        <div className="mx-auto flex max-w-7xl flex-col gap-2 px-5 py-6 text-xs text-white/80 md:flex-row md:justify-between lg:px-8">
           <span>© 2026 ASTREA</span>
           <span>Associazione culturale senza fini di lucro</span>
         </div>

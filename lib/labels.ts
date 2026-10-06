@@ -1,0 +1,5 @@
+export const categories = { TERRITORY_ENVIRONMENT: "Territorio e ambiente", ENERGY_SUSTAINABILITY: "Energia e sostenibilità", TECHNOLOGY_INNOVATION: "Tecnologie e innovazione", RESEARCH_PLANNING: "Ricerca e progettazione", LOCAL_DEVELOPMENT: "Sviluppo locale", CONSERVATION_PROTECTION: "Tutela e conservazione", OTHER: "Altro" };
+export const statuses = { NEW: "Inviata", UNDER_REVIEW: "In valutazione", IN_PROGRESS: "Presa in carico", WAITING_REQUESTER: "In attesa del richiedente", RESOLVED: "Risolta", CLOSED: "Chiusa" };
+export const priorities = { LOW: "Bassa", NORMAL: "Normale", HIGH: "Alta", URGENT: "Urgente" };
+export const events = { CREATED: "Pratica inviata", STATUS_CHANGED: "Stato aggiornato", ASSIGNED: "Professionista assegnato", UNASSIGNED: "Assegnazione rimossa", MESSAGE_ADDED: "Comunicazione aggiunta", ATTACHMENT_ADDED: "Documento aggiunto", PRIORITY_CHANGED: "Priorità aggiornata", CLOSED: "Pratica chiusa", REOPENED: "Pratica riaperta" };
+export const date = (value: Date) => new Intl.DateTimeFormat("it-IT", { dateStyle: "medium", timeStyle: "short", timeZone: "Europe/Rome" }).format(value);

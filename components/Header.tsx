@@ -22,7 +22,7 @@ export default function Header() {
               ASTREA
             </div>
 
-            <div className="hidden text-[9px] uppercase tracking-[0.16em] text-astrea-text/70 sm:block">
+            <div className="hidden text-[9px] uppercase tracking-[0.16em] text-astrea-text sm:block">
               Territorio · Ricerca · Energia · Ambiente
             </div>
           </div>
@@ -56,6 +56,13 @@ export default function Header() {
           </Link>
         </div>
       </div>
+      <details className="border-t border-astrea-line px-5 lg:hidden">
+        <summary className="cursor-pointer py-3 text-sm font-semibold text-astrea-navy">Menu di navigazione</summary>
+        <nav aria-label="Navigazione mobile" className="grid gap-1 pb-4">
+          {navigation.map(item => <Link key={item.href} href={item.href} className="py-3 text-sm font-medium">{item.label}</Link>)}
+          <Link href="/accedi" className="py-3 font-semibold">Accedi all&apos;area personale</Link>
+        </nav>
+      </details>
     </header>
   );
 }

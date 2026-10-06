@@ -1,0 +1,11 @@
+import PageFrame from "@/components/PageFrame";
+import PortalForm from "@/components/PortalForm";
+import { Field } from "@/components/Fields";
+import { requireUser } from "@/lib/auth";
+import { db } from "@/lib/db";
+export const metadata = { title: "Professionisti ASTREA" };
+export default async function Page() {
+  await requireUser("ADMIN");
+  const professionals = await db().user.findMany({ where: { role: "PROFESSIONAL" }, select: { id: true, firstName: true, lastName: true, email: true, professionalProfile: { select: { profession: true, enabled: true } } }, orderBy: { lastName: "asc" } });
+  return <PageFrame title="Professionisti ASTREA" description="Solo ASTREA crea gli account e ne autorizza l'accesso. L'invito consente al professionista di scegliere la propria password."><div className="grid items-start gap-8 lg:grid-cols-2"><section className="panel"><h2 className="mb-6 font-serif text-2xl">Invita un professionista</h2><PortalForm endpoint="/api/portal/create-professional" submit="Crea account e invia invito"><Field name="firstName" label="Nome" maxLength={100} /><Field name="lastName" label="Cognome" maxLength={100} /><Field name="email" label="Email" type="email" maxLength={254} /><Field name="profession" label="Professione" maxLength={150} /><Field name="expertise" label="Competenze, separate da virgole" required={false} maxLength={1000} /></PortalForm></section><section className="space-y-5"><h2 className="font-serif text-2xl">La rete professionale</h2>{professionals.map(p=><article className="panel" key={p.id}><h3 className="text-lg font-semibold">{p.firstName} {p.lastName}</h3><p className="mt-2">{p.email} · {p.professionalProfile?.profession}</p><p className="my-4">{p.professionalProfile?.enabled ? "Abilitato" : "Disabilitato"}</p><PortalForm endpoint="/api/portal/toggle-professional" submit={p.professionalProfile?.enabled ? "Disabilita accesso" : "Abilita accesso"}><input type="hidden" name="userId" value={p.id} /><input type="hidden" name="enabled" value={String(!p.professionalProfile?.enabled)} /></PortalForm><div className="mt-4"><PortalForm endpoint="/api/portal/invite-professional" submit="Invia nuovo invito"><input type="hidden" name="userId" value={p.id} /></PortalForm></div></article>)}{!professionals.length && <p className="panel">Nessun professionista creato.</p>}</section></div></PageFrame>;
+}
