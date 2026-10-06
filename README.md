@@ -93,7 +93,7 @@ I test di integrazione richiedono la build. Avviano PGlite, SMTP locale e storag
 
 Google reale, consegna email reale e storage del provider richiedono collaudo nell’ambiente configurato. Gli override deepmerge-ts e mysql2 aggiornano dipendenze transitive vulnerabili mantenendo Prisma 7.10; validate, generate e test verificano la compatibilità. Evita aggiornamenti forzati che retrocedano Prisma.
 
-L’audit completo segnala la dipendenza di sviluppo braces 3.0.3, transitiva del lint Next.js, per [GHSA-vfj7-8cjw-p6xm](https://github.com/advisories/GHSA-vfj7-8cjw-p6xm): al momento della verifica non esiste una versione corretta. Non è esposta da input HTTP del portale; l’audit delle dipendenze di produzione è separato (`npm audit --omit=dev`). Il problema va rivalutato quando sarà disponibile una patch, senza mascherare il risultato dell’audit completo.
+La dipendenza vulnerabile braces è stata rimossa: un override limitato a @next/eslint-plugin-next sostituisce fast-glob con tinyglobby 0.2.17. Il plugin usa esclusivamente globSync con onlyDirectories, supportati dalla sostituzione; un test verifica directory singole, glob, array e risultati vuoti. Le regole Next restano attive. L’audit completo e quello di produzione risultano senza vulnerabilità alla verifica. Rivalutare questo override quando il plugin Next aggiorna la propria implementazione.
 
 ## Railway
 
